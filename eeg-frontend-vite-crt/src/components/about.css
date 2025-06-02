@@ -1,0 +1,58 @@
+.about-container {
+  background-color: #e0f7ff; /* Light sky blue background */
+  padding: 40px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.5;
+}
+
+.about-container h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2.5rem;
+  color: #004d80;
+}
+
+.about-container h2 {
+  margin-top: 25px;
+  color: #003366;
+}
+
+.about-container p,
+.about-container li,
+.about-container ol {
+  font-size: 1.05rem;
+  margin-bottom: 10px;
+}
+
+.about-container ol,
+.about-container ul {
+  padding-left: 20px;
+}
+
+/* Section wrappers */
+.about-container > *:not(h1):not(blockquote) {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Alternate section colors */
+.about-container > *:nth-child(odd):not(h1):not(blockquote) {
+  background-color: #ffffff;
+}
+
+.about-container > *:nth-child(even):not(h1):not(blockquote) {
+  background-color: #f1f9ff;
+}
+
+/* Blockquote styling */
+.about-container blockquote {
+  background-color: #fff9c4;
+  border-left: 6px solid #ffd600;
+  padding: 15px 20px;
+  font-style: italic;
+  margin-top: 30px;
+  border-radius: 8px;
+}

@@ -1,0 +1,57 @@
+.dashboard-container {
+    padding-top: 6rem;
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, #7c3aed, #0ea5e9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .dashboard-title {
+    color: white;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 2rem;
+  }
+  
+  .dashboard-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+  }
+  
+  .feature-card {
+    background-color: white;
+    color: #6b21a8;
+    border-radius: 1rem;
+    padding: 2rem;
+    width: 250px;
+    height: 180px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  }
+  
+  .feature-card .emoji {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .feature-card .label {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+  
