@@ -1,65 +1,62 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pandas as pd
-import numpy as np
-import pywt
 import joblib
+import os
 import json
 
 app = Flask(__name__)
-
-# Enable CORS for all routes
 CORS(app)
 
-# Load model and configs
-lda = joblib.load('models/lda_model.pkl')
-scaler = joblib.load('models/scaler.pkl')
+# === Load Model and Config Once ===
+MODEL_PATH = os.path.join('models', 'model_full.pkl')
+CONFIG_PATH = os.path.join('models', 'config.json')
+#EMOTION_MODEL_PATH = os.path.join('models', 'emotion_model.pkl')
 
-with open('models/config.json') as f:
+lda_model = joblib.load(MODEL_PATH)
+#emotion_model = joblib.load(EMOTION_MODEL_PATH)
+
+
+with open(CONFIG_PATH) as f:
     config = json.load(f)
 
-def segment_data(df, window_size, overlap):
-    segments = []
-    for start in range(0, len(df) - window_size, overlap):
-        segment = df[start:start + window_size, :]
-        segments.append(segment)
-    return np.array(segments)
+@app.route('/api/lie-detect', methods=['POST'])
+def lie_detection():
+    try:
+        # Validate file presence
+        if 'file' not in request.files:
+            return jsonify({'error': 'No file part in the request'}), 400
 
-def extract_dwt_features(segments, wavelet, level):
-    features = []
-    for segment in segments:
-        segment_features = []
-        for channel in range(segment.shape[1]):
-            coeffs = pywt.wavedec(segment[:, channel], wavelet, level=level)
-            energy = [np.sum(c**2) for c in coeffs]
-            entropy = [-np.sum((c**2 / np.sum(c**2)) * np.log2(c**2 / np.sum(c**2) + 1e-12)) for c in coeffs]
-            segment_features.extend(energy + entropy)
-        features.append(segment_features)
-    return np.array(features)
+        file = request.files['file']
+        if file.filename == '':
+            return jsonify({'error': 'No selected file'}), 400
+
+        # Read uploaded CSV
+        df = pd.read_csv(file)
+
+        # Directly predict (data is already preprocessed in training)
+        predictions = lda_model.predict(df)
+
+        # Return only the first prediction
+        result = int(predictions[0])
+        return jsonify({'prediction': str(result)}), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+
+
 
 @app.route('/health', methods=['GET'])
 def health_check():
     try:
-        # Try loading model and scaler
-        _ = lda.predict([[0] * lda.coef_.shape[1]])  # dummy prediction
-        return jsonify({'status': 'ok', 'model': 'LDA model is loaded'}), 200
+        # Run a dummy prediction to verify model health
+        dummy_input = [[0] * lda_model.coef_.shape[1]]
+        lda_model.predict(dummy_input)
+        return jsonify({'status': 'ok'}), 200
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
-@app.route('/predict', methods=['POST'])
-def predict():
-    file = request.files['file']
-    df = pd.read_csv(file)
-
-    X = scaler.transform(df)
-    segments = segment_data(X, config['window_size'], config['overlap'])
-    features = extract_dwt_features(segments, config['wavelet'], config['level'])
-    X_transformed = lda.transform(features)
-
-    # Majority voting: if mean > 0.5, then 'Truth'
-    prediction = 'Truth' if np.mean(X_transformed) > 0 else 'Lie'
-
-    return jsonify({'result': prediction})
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)

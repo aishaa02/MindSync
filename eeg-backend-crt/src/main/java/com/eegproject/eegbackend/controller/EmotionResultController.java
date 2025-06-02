@@ -29,4 +29,6 @@ public class EmotionResultController {
     public List<EmotionResult> getResultsByUser(@PathVariable String userId) {
         return emotionRepo.findByUserId(userId);
     }
+
+     
 }

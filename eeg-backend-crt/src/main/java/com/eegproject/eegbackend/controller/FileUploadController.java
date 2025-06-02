@@ -73,6 +73,7 @@ public class FileUploadController {
             metadata.setFileId(fileId.toString());
             fileMetadataRepository.save(metadata);
 
+            
             logger.info("File uploaded successfully for feature {}: {}", feature, fileId.toString());
             return ResponseEntity.ok("{\"message\": \"File uploaded successfully\", \"fileId\": \"" + fileId.toString() + "\"}");
 

@@ -1,58 +1,85 @@
-/* Upload Page Styles */
+/* Google Drive Style Upload Page */
 
 .upload-container {
-    min-height: 100vh;
-    padding-top: 6rem;
-    background: linear-gradient(to bottom right, #7c3aed, #0ea5e9);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Inter', sans-serif;
-    color: white;
-  }
-  
-  .upload-box {
-    background-color: white;
-    color: #6b21a8;
-    padding: 2rem;
-    border-radius: 1rem;
-    width: 100%;
-    max-width: 400px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .upload-box h2 {
-    font-size: 1.75rem;
-    margin-bottom: 1.5rem;
-    font-weight: 700;
-  }
-  
-  .upload-box input[type="file"] {
-    margin-bottom: 1.5rem;
-    border: 1px solid #ddd;
-    padding: 0.5rem;
-    width: 100%;
-    border-radius: 0.5rem;
-    font-size: 1rem;
-  }
-  
-  .upload-box button {
-    background-color: #6b21a8;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 0.5rem;
-    font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  .upload-box button:hover {
-    background-color: #581c87;
-    transform: scale(1.05);
-  }
-  
+  min-height: 100vh;
+  padding-top: 6rem;
+  background: #e0cde2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Google Sans', 'Inter', sans-serif;
+  color: #e9beef;
+}
+
+.upload-box {
+  background-color: #ffffff;
+  padding: 3rem 2.5rem;
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 4px 20px rgba(60, 64, 67, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: box-shadow 0.2s ease;
+}
+
+.upload-box:hover {
+  box-shadow: 0 6px 25px rgba(60, 64, 67, 0.25);
+}
+
+.upload-box h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #1a73e8;
+}
+
+.upload-dropzone {
+  width: 100%;
+  border: 2px dashed #dadce0;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  text-align: center;
+  background-color: #f8f9fa;
+  color: #5f6368;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.upload-dropzone:hover {
+  background-color: #e8f0fe;
+  color: #1a73e8;
+  border-color: #1a73e8;
+}
+
+.upload-dropzone label {
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.upload-box input[type="file"] {
+  display: none;
+}
+
+.upload-box button {
+  background-color: #1a73e8;
+  color: white;
+  margin-top: 1.5rem;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  width: 100%;
+}
+
+.upload-box button:hover {
+  background-color: #185abc;
+  transform: translateY(-2px);
+}

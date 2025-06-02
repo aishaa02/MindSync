@@ -1,14 +1,35 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './navbar.css';
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const isLoggedIn = !!localStorage.getItem('userId');
+
+  const handleSignOut = (e) => {
+    e.preventDefault(); // Prevent default anchor behavior
+    localStorage.clear();
+    navigate('/');
+    window.location.reload(); // Ensure navbar updates
+  };
+
   return (
-    <nav className="w-full bg-white shadow-md py-4 px-6 flex justify-end gap-4 fixed top-0 z-10">
-      <Link to="/" className="text-purple-700 font-semibold hover:underline">Home</Link>
-      <Link to="/about" className="text-purple-700 font-semibold hover:underline">About Us</Link>
-      <Link to="/login" className="text-purple-700 font-semibold hover:underline">Login</Link>
-      <Link to="/register" className="text-purple-700 font-semibold hover:underline">Register</Link>
+    <nav className="navbar">
+      <Link to="/" className="nav-link">Home</Link>
+      <Link to="/about" className="nav-link">About Us</Link>
+
+      {!isLoggedIn ? (
+        <>
+          <Link to="/login" className="nav-link">Login</Link>
+          <Link to="/register" className="nav-link">Register</Link>
+        </>
+      ) : (
+        <>
+          <Link to="/dashboard" className="nav-link">Dashboard</Link>
+          <Link to="/history" className="nav-link">History</Link>
+          <a href="/" onClick={handleSignOut} className="nav-link">Sign Out</a>
+        </>
+      )}
     </nav>
   );
 };

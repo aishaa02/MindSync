@@ -28,3 +28,4 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/api/**").setCachePeriod(0);
     }
 }
+

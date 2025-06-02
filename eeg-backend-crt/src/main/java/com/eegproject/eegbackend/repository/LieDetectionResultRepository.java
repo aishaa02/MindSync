@@ -10,3 +10,4 @@ public interface LieDetectionResultRepository extends MongoRepository<LieDetecti
     // Custom query to find results by user ID
     List<LieDetectionResult> findByUserId(String userId);
 }
+

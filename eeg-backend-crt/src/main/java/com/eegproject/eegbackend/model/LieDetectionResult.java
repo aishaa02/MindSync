@@ -15,6 +15,9 @@ public class LieDetectionResult {
     private boolean lieDetected;
     private double confidence;
     private String timestamp;
+    private String fileId;
+    private String prediction;  // you might want to map prediction string to lieDetected/confidence later
+
 
     public LieDetectionResult() {}
 
@@ -40,4 +43,22 @@ public class LieDetectionResult {
 
     public String getTimestamp() { return timestamp; }
     public void setTimestamp(String timestamp) { this.timestamp = timestamp; }
+
+    public String getFileId() {
+    return fileId;
 }
+
+public void setFileId(String fileId) {
+    this.fileId = fileId;
+}
+
+public String getPrediction() {
+    return prediction;
+}
+
+public void setPrediction(String prediction) {
+    this.prediction = prediction;
+}
+
+}
+
