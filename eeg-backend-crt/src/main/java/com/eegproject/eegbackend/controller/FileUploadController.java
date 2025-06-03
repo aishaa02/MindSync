@@ -11,6 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import java.util.Map;
+import java.util.HashMap;
+
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -75,7 +78,13 @@ public class FileUploadController {
 
             
             logger.info("File uploaded successfully for feature {}: {}", feature, fileId.toString());
-            return ResponseEntity.ok("{\"message\": \"File uploaded successfully\", \"fileId\": \"" + fileId.toString() + "\"}");
+            //return ResponseEntity.ok("{\"message\": \"File uploaded successfully\", \"fileId\": \"" + fileId.toString() + "\"}");
+           Map<String, String> response = new HashMap<>();
+           response.put("message", "File uploaded successfully");
+           response.put("fileId", fileId.toString());
+           response.put("fileName", file.getOriginalFilename());
+
+           return ResponseEntity.ok(response);
 
         } catch (RuntimeException e) {
             logger.error("Runtime exception while uploading file for feature {}: {}", feature, e.getMessage(), e);

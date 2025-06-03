@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import './upload.css';
 
 const UploadSeizure = () => {
   const [file, setFile] = useState(null);
+  const navigate = useNavigate();
+
 
   const handleFileChange = (e) => {
     const uploadedFile = e.target.files[0];
@@ -44,6 +48,9 @@ const UploadSeizure = () => {
 
       const uploadResult = await uploadResponse.json(); // { fileId: "...", fileName: "..." }
 
+      console.log("Upload result:", uploadResult);
+
+
       // STEP 2: Trigger Seizure Detection (SpringBoot -> Flask)
       const processResponse = await fetch('http://localhost:8081/api/seizure/process', {
         method: 'POST',
@@ -57,16 +64,32 @@ const UploadSeizure = () => {
         })
       });
 
+      console.log("userId:", userId);
+console.log("fileId:", uploadResult.fileId);
+console.log("fileName:", uploadResult.fileName);
+
+
       if (!processResponse.ok) {
         const errorText = await processResponse.text();
         return alert(`Error during prediction: ${errorText}`);
       }
 
       const processResult = await processResponse.json(); // { seizureDetected: true/false }
+      alert(`Server Response:\nSeizure Detected: ${processResult.seizureDetected ? "Yes" : "No"}`);
+
+    navigate('/seizure-result', {
+     state: {
+    result: processResult.seizureDetected,
+    fileId: uploadResult.fileId,
+    fileName: uploadResult.fileName,
+    timestamp: new Date().toISOString()
+  }
+});
+
       
 
       //alert(`File uploaded and processed successfully.\nSeizure Detected: ${processResult.seizureDetected ? "Yes" : "No"}`);
-      alert(`Response from server:\n${JSON.stringify(processResult, null, 2)}`);
+      //alert(`Response from server:\n${JSON.stringify(processResult, null, 2)}`);
 
       setFile(null);
 

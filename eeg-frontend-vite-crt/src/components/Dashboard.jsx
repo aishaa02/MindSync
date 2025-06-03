@@ -9,7 +9,7 @@ const Dashboard = () => {
     { label: 'Emotion Detection', emoji: '🎭', route: '/upload/emotion' },
     { label: 'Seizure Detection', emoji: '⚡', route: '/upload/seizure' },
     { label: 'Lie Detection', emoji: '❗', route: '/upload/lie' },
-    { label: 'More Coming Soon', emoji: '📂', route: '#' },
+    
   ];
 
   return (

@@ -39,15 +39,17 @@ const History = () => {
       </div>
 
       <div className="history-section">
-        <h2>❗ Lie Detection</h2>
-        {lieHistory.map((item, index) => (
-          <div className="history-card" key={index}>
-            <p><strong>Lie Detected:</strong> {item.lieDetected ? 'Yes' : 'No'}</p>
-            <p><strong>Confidence:</strong> {item.confidence}</p>
-            <p><strong>Time:</strong> {item.timestamp}</p>
-          </div>
-        ))}
-      </div>
+      <h2>❗ Lie Detection</h2>
+  {lieHistory.map((item, index) => (
+    <div className="history-card" key={index}>
+      <p><strong>Lie Detected:</strong> {item.lieDetected ? 'Yes' : 'No'}</p>
+      <p><strong>Prediction:</strong> {item.prediction}</p>
+      <p><strong>File:</strong> {item.fileName || 'N/A'}</p>
+      <p><strong>Time:</strong> {item.timestamp}</p>
+    </div>
+  ))}
+</div>
+
 
       <div className="history-section">
         <h2>⚡ Seizure Detection</h2>
