@@ -33,13 +33,43 @@ public class AuthController {
     // Register a new user
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email is already registered.");
-        }
+        try {
+            // Validate required fields
+            if (user.getUsername() == null || user.getEmail() == null || 
+                user.getPassword() == null || user.getContact() == null || 
+                user.getDob() == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                   .body("All fields (username, email, password, contact, dob) are required.");
+            }
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully.");
+            // Check if email already exists
+            if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                   .body("Email is already registered.");
+            }
+
+            // Create new user with all fields
+            User newUser = new User();
+            newUser.setUsername(user.getUsername());
+            newUser.setEmail(user.getEmail());
+            newUser.setPassword(passwordEncoder.encode(user.getPassword()));
+            newUser.setContact(user.getContact());
+            newUser.setDob(user.getDob());
+
+            // Save user
+            User savedUser = userRepository.save(newUser);
+
+            // Return success response with user ID
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "User registered successfully");
+            response.put("userId", savedUser.getId());
+            
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                               .body("Error during registration: " + e.getMessage());
+        }
     }
 
     // Login a user
