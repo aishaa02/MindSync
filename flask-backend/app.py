@@ -65,8 +65,10 @@ if __name__ == '__main__':
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from tensorflow.keras.models import load_model
-import mne
+
 import numpy as np
+import scipy.io
+import torch
 
 
 import pandas as pd
@@ -93,6 +95,12 @@ seizure_model = load_model(SEIZURE_MODEL_PATH)
 print(type(seizure_model))
 print(seizure_model.keys() if isinstance(seizure_model, dict) else "Not a dict")
 
+"""device = torch.device('cpu')
+
+EMOTION_MODEL_PATH = os.path.join('models', 'last_DGCNN_weights_trail1.pth')
+model = torch.load(EMOTION_MODEL_PATH, map_location=device)
+model.eval()"""
+
 
 
 @app.route('/api/lie-detect', methods=['POST'])
@@ -114,44 +122,12 @@ def lie_detection():
         return jsonify({'error': str(e)}), 500
 
 
-from tensorflow.keras.models import load_model
-import numpy as np
 
-SEIZURE_MODEL_PATH = os.path.join('models', 'CHB_MIT_sz_detec_demo.h5')
-seizure_model = load_model(SEIZURE_MODEL_PATH)
 
-"""@app.route('/api/seizure-detect', methods=['POST'])
-def seizure_detection():
-    try:
-        if 'file' not in request.files:
-            return jsonify({'error': 'No file part in the request'}), 400
 
-        file = request.files['file']
-        if file.filename == '':
-            return jsonify({'error': 'No selected file'}), 400
 
-        file_content = file.read()  # raw bytes
 
-        # Convert to numpy uint8 array
-        raw_data = np.frombuffer(file_content, dtype=np.uint8)
 
-        
-
-        required_size = 18 * 1024  # = 18432
-        if raw_data.size < required_size:
-            return jsonify({'error': f'File too small, expected at least {required_size} bytes'}), 400
-        
-
-        #raw_data = raw_data[:required_size]  # truncate only, no processing
-        reshaped = raw_data.reshape((1, 18, 1024, 1))  # match model shape
-
-        prediction = seizure_model.predict(reshaped)
-        result = int(np.argmax(prediction, axis=1)[0])  # or however your model outputs
-
-        return jsonify({'prediction': result}), 200
-
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500"""
 
 @app.route('/api/seizure-detect', methods=['POST'])
 def seizure_detection():
@@ -178,13 +154,47 @@ def seizure_detection():
         print("Prediction output:", prediction)
         print("Prediction shape:", prediction.shape)
 
-        result = int(prediction[0][0] >= 0.5)
+        result = int(prediction[0][0] < 1.)
+
+        
 
 
         return jsonify({'seizureDetected': bool(result)}), 200
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+"""@app.route('/predict', methods=['POST'])
+def predict():
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file part in the request'}), 400
+
+    file = request.files['file']
+
+    if file.filename == '':
+        return jsonify({'error': 'No file selected for uploading'}), 400
+
+    try:
+        # Load EEG data (.npy format, expected shape: [5, 9, 9])
+        np_data = np.load(file)
+        
+        if np_data.shape != (5, 9, 9):
+            return jsonify({'error': f'Invalid input shape. Expected (5, 9, 9), got {np_data.shape}'}), 400
+
+        # Convert to tensor and add batch dimension
+        tensor_data = torch.tensor(np_data, dtype=torch.float32).unsqueeze(0).to(device)  # Shape: [1, 5, 9, 9]
+
+        with torch.no_grad():
+            output = model(tensor_data)
+            pred_idx = torch.argmax(output, dim=1).item()
+
+        return jsonify({
+            'prediction_index': int(pred_idx)
+        })
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500"""
+
 
 
 

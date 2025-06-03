@@ -12,6 +12,10 @@ import UploadEmotion from './components/UploadEmotion';
 import UploadSeizure from './components/UploadSeizure';
 import UploadLie from './components/UploadLie';
 import LieResult from './components/LieResult';
+import History from './components/History';
+import SeizureResult from './components/SeizureResult';
+import EmotionResult from './components/EmotionResult';
+
 
 import './index.css';
 
@@ -29,6 +33,10 @@ function App() {
   <Route path="/upload/seizure" element={<UploadSeizure />} />
   <Route path="/upload/lie" element={<UploadLie />} />
   <Route path="/result" element={<LieResult />} />
+  <Route path="/history" element={<History />} />
+  <Route path="/seizure-result" element={<SeizureResult />} />
+  <Route path="/emotion-result" element={<EmotionResult />} />
+
   <Route path="*" element={<Navigate to="/" />} />  {/* ✅ wildcard last */}
 </Routes>
     </Router>

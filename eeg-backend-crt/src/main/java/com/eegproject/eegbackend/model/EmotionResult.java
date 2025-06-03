@@ -14,17 +14,20 @@ public class EmotionResult {
     private String userId;  // optional: to track which user uploaded
     private String emotion;
     private double confidence;
+    private String fileName; 
     private String timestamp;
 
     // Constructors
     public EmotionResult() {}
 
-    public EmotionResult(String userId, String emotion, double confidence, String timestamp) {
-        this.userId = userId;
-        this.emotion = emotion;
-        this.confidence = confidence;
-        this.timestamp = timestamp;
-    }
+    public EmotionResult(String userId, String emotion, double confidence, String timestamp, String fileName) {
+    this.userId = userId;
+    this.emotion = emotion;
+    this.confidence = confidence;
+    this.timestamp = timestamp;
+    this.fileName= fileName;
+}
+
 
     // Getters and Setters
     public String getId() { return id; }
@@ -38,6 +41,9 @@ public class EmotionResult {
 
     public double getConfidence() { return confidence; }
     public void setConfidence(double confidence) { this.confidence = confidence; }
+
+    public String getFileName() { return fileName; }  // ✅ NEW GETTER
+    public void setFileName(String fileName) { this.fileName = fileName; } 
 
     public String getTimestamp() { return timestamp; }
     public void setTimestamp(String timestamp) { this.timestamp = timestamp; }

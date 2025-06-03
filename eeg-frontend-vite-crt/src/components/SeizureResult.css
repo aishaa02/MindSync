@@ -1,0 +1,36 @@
+.result-container {
+  margin: 2rem auto;
+  padding: 2rem;
+  max-width: 500px;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px #b3e5fc;
+  background: #f8fdff;
+  text-align: center;
+}
+.healthy h1 {
+  color: #43a047;
+  font-size: 2.2rem;
+}
+.healthy-msg {
+  font-size: 1.2rem;
+  color: #388e3c;
+}
+.highlight {
+  color: #1976d2;
+  font-weight: bold;
+}
+.seizure-alert h1 {
+  color: #d32f2f;
+  font-size: 2.2rem;
+}
+.doctor-card {
+  margin: 1rem auto;
+  padding: 1rem;
+  background: #fff3e0;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px #ffe0b2;
+  display: inline-block;
+}
+.waiting h2 {
+  color: #1976d2;
+}

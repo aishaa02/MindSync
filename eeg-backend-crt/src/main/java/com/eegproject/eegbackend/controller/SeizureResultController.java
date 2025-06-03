@@ -1,35 +1,4 @@
-/*package com.eegproject.eegbackend.controller;
 
-import com.eegproject.eegbackend.model.SeizureResult;
-import com.eegproject.eegbackend.repository.SeizureResultRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/seizure")
-@CrossOrigin
-public class SeizureResultController {
-
-    @Autowired
-    private SeizureResultRepository seizureRepo;
-
-    @PostMapping("/save")
-    public SeizureResult saveSeizureResult(@RequestBody SeizureResult result) {
-        return seizureRepo.save(result);
-    }
-
-    @GetMapping("/all")
-    public List<SeizureResult> getAllResults() {
-        return seizureRepo.findAll();
-    }
-
-    @GetMapping("/user/{userId}")
-    public List<SeizureResult> getResultsByUser(@PathVariable String userId) {
-        return seizureRepo.findByUserId(userId);
-    }
-}*/
 
 package com.eegproject.eegbackend.controller;
 
@@ -71,7 +40,7 @@ public class SeizureResultController {
         return seizureRepo.findByUserId(userId);
     }
 
-    @PostMapping("/process")
+    /*@PostMapping("/process")
     public ResponseEntity<?> processSeizureDetection(@RequestBody Map<String, String> requestBody) {
         try {
             String userId = requestBody.get("userId");
@@ -88,6 +57,37 @@ public class SeizureResultController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
+    }*/
+
+  @PostMapping("/process")
+public ResponseEntity<?> processSeizureDetection(@RequestBody Map<String, String> requestBody) {
+    try {
+        String userId = requestBody.get("userId");
+        String fileId = requestBody.get("fileId");
+        String fileName = requestBody.get("fileName");
+
+        if (userId == null || fileId == null || fileName == null) {
+            return ResponseEntity.badRequest().body("Missing required fields");
+        }
+
+        boolean seizureDetected = seizureDetectionService.processFileAndPredict(fileId, fileName);
+
+        // ✅ Save result (NOW in Controller)
+        SeizureResult result = new SeizureResult();
+        result.setUserId(userId);
+        result.setSeizureDetected(seizureDetected);
+        result.setFileName(fileName); // ✅ Set here
+        result.setTimestamp(String.valueOf(System.currentTimeMillis()));
+        seizureRepo.save(result);
+
+        return ResponseEntity.ok(Map.of("seizureDetected", seizureDetected));
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
+}
+
+
 }
 

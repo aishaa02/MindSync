@@ -13,19 +13,19 @@ public class LieDetectionResult {
 
     private String userId;
     private boolean lieDetected;
-    private double confidence;
     private String timestamp;
     private String fileId;
-    private String prediction;  // you might want to map prediction string to lieDetected/confidence later
-
+    private String prediction;
+    private String fileName;  // ✅ NEW FIELD
 
     public LieDetectionResult() {}
 
-    public LieDetectionResult(String userId, boolean lieDetected, double confidence, String timestamp) {
+    public LieDetectionResult(String userId, boolean lieDetected, String timestamp, String prediction, String fileName) {
         this.userId = userId;
         this.lieDetected = lieDetected;
-        this.confidence = confidence;
         this.timestamp = timestamp;
+        this.prediction = prediction;
+        this.fileName = fileName;
     }
 
     // Getters and Setters
@@ -38,27 +38,15 @@ public class LieDetectionResult {
     public boolean isLieDetected() { return lieDetected; }
     public void setLieDetected(boolean lieDetected) { this.lieDetected = lieDetected; }
 
-    public double getConfidence() { return confidence; }
-    public void setConfidence(double confidence) { this.confidence = confidence; }
-
     public String getTimestamp() { return timestamp; }
     public void setTimestamp(String timestamp) { this.timestamp = timestamp; }
 
-    public String getFileId() {
-    return fileId;
-}
+    public String getFileId() { return fileId; }
+    public void setFileId(String fileId) { this.fileId = fileId; }
 
-public void setFileId(String fileId) {
-    this.fileId = fileId;
-}
+    public String getPrediction() { return prediction; }
+    public void setPrediction(String prediction) { this.prediction = prediction; }
 
-public String getPrediction() {
-    return prediction;
+    public String getFileName() { return fileName; }  // ✅ NEW GETTER
+    public void setFileName(String fileName) { this.fileName = fileName; }  // ✅ NEW SETTER
 }
-
-public void setPrediction(String prediction) {
-    this.prediction = prediction;
-}
-
-}
-

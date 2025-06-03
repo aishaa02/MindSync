@@ -25,9 +25,29 @@ public class LieDetectionResultController {
 
     // Save a new lie detection result
     @PostMapping("/save")
-    public LieDetectionResult saveLieResult(@RequestBody LieDetectionResult result) {
-        return lieRepo.save(result);
+    public ResponseEntity<?> savePrediction(@RequestBody Map<String, String> payload) {
+    try {
+        String userId = payload.get("userId");
+        String prediction = payload.get("prediction");
+        String fileName = payload.get("fileName");
+
+        if (userId == null || prediction == null || fileName == null) {
+            return ResponseEntity.badRequest().body("Missing required fields");
+        }
+
+        LieDetectionResult result = new LieDetectionResult();
+        result.setUserId(userId);
+        result.setPrediction(prediction);
+        result.setLieDetected("Lie".equalsIgnoreCase(prediction));
+        result.setFileName(fileName);
+        result.setTimestamp(java.time.LocalDateTime.now().toString());
+
+        LieDetectionResult saved = lieRepo.save(result);
+        return ResponseEntity.ok(saved);
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
+}
 
     // Get all lie detection results
     @GetMapping("/all")

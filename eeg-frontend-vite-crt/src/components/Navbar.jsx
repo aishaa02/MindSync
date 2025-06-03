@@ -1,17 +1,25 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import './navbar.css';
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const isLoggedIn = !!localStorage.getItem('userId');
+  const location = useLocation();  // watch route changes
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('userId'));
+
+  // Update isLoggedIn every time the route changes
+  useEffect(() => {
+    setIsLoggedIn(!!localStorage.getItem('userId'));
+  }, [location]);
 
   const handleSignOut = (e) => {
-    e.preventDefault(); // Prevent default anchor behavior
-    localStorage.clear();
-    navigate('/');
-    window.location.reload(); // Ensure navbar updates
+    e.preventDefault();
+    localStorage.removeItem('userId');
+    localStorage.removeItem('token'); // optional
+    setIsLoggedIn(false);
+    navigate('/home');
   };
+
 
   return (
     <nav className="navbar">
