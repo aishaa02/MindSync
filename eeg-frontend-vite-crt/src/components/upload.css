@@ -1,5 +1,125 @@
 /* Google Drive Style Upload Page */
 
+/*.upload-container {
+  min-height: 100vh;
+  padding: 2rem;
+  background: linear-gradient(135deg, #e0cde2 0%, #d4a5e1 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Google Sans', 'Inter', sans-serif;
+}
+
+.upload-box {
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 3rem;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.upload-box h2 {
+  color: #6b46c1;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.upload-dropzone {
+  border: 3px dashed #9f7aea;
+  border-radius: 15px;
+  padding: 2.5rem;
+  margin: 1.5rem 0;
+  background-color: rgba(159, 122, 234, 0.05);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.upload-dropzone.drag-active {
+  background-color: rgba(159, 122, 234, 0.1);
+  border-color: #6b46c1;
+  transform: scale(1.02);
+}
+
+.upload-dropzone label {
+  font-size: 1.2rem;
+  color: #6b46c1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+}
+
+.upload-dropzone .icon {
+  font-size: 3rem;
+  color: #9f7aea;
+  transition: transform 0.3s ease;
+}
+
+.upload-dropzone:hover .icon {
+  transform: translateY(-5px);
+}
+
+.upload-button {
+  background: linear-gradient(135deg, #9f7aea 0%, #6b46c1 100%);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-top: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.upload-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(107, 70, 193, 0.4);
+}
+
+.upload-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.file-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background-color: rgba(159, 122, 234, 0.1);
+  border-radius: 8px;
+}
+
+.file-preview .file-name {
+  color: #6b46c1;
+  font-weight: 500;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.upload-animation {
+  animation: bounce 2s infinite;
+}
+*/
+
+/* Google Drive Style Upload Page */
+
 .upload-container {
   min-height: 100vh;
   padding-top: 6rem;
@@ -83,3 +203,5 @@
   background-color: #185abc;
   transform: translateY(-2px);
 }
+
+

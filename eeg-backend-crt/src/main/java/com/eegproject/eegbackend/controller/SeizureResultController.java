@@ -1,5 +1,3 @@
-
-
 package com.eegproject.eegbackend.controller;
 
 import com.eegproject.eegbackend.model.SeizureResult;
@@ -77,7 +75,9 @@ public ResponseEntity<?> processSeizureDetection(@RequestBody Map<String, String
         result.setUserId(userId);
         result.setSeizureDetected(seizureDetected);
         result.setFileName(fileName); // ✅ Set here
-        result.setTimestamp(String.valueOf(System.currentTimeMillis()));
+        result.setTimestamp(java.time.LocalDateTime.now().toString());
+        result.setTimestamp(java.time.LocalDateTime.now().toString());
+  
         seizureRepo.save(result);
 
         return ResponseEntity.ok(Map.of("seizureDetected", seizureDetected));

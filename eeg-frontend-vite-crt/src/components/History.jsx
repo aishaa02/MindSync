@@ -31,7 +31,7 @@ const History = () => {
         {emotionHistory.map((item, index) => (
           <div className="history-card" key={index}>
             <p><strong>Emotion:</strong> {item.emotion}</p>
-            <p><strong>Confidence:</strong> {item.confidence}</p>
+            
             <p><strong>File:</strong> {item.fileName || 'N/A'}</p>
             <p><strong>Time:</strong> {item.timestamp}</p>
           </div>

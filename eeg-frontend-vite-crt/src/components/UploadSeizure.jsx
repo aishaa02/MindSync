@@ -75,7 +75,7 @@ console.log("fileName:", uploadResult.fileName);
       }
 
       const processResult = await processResponse.json(); // { seizureDetected: true/false }
-      alert(`Server Response:\nSeizure Detected: ${processResult.seizureDetected ? "Yes" : "No"}`);
+      //alert(`Server Response:\nSeizure Detected: ${processResult.seizureDetected ? "Yes" : "No"}`);
 
     navigate('/seizure-result', {
      state: {
@@ -100,13 +100,35 @@ console.log("fileName:", uploadResult.fileName);
   };
 
   return (
-    <div className="upload-container">
+    /*<div className="upload-container">
       <h2>Upload EEG File for Seizure Detection</h2>
       <form onSubmit={handleSubmit} className="upload-form">
         <input type="file" accept=".edf,.csv,.parquet" onChange={handleFileChange} />
         <button type="submit" disabled={!file}>Upload</button>
       </form>
+    </div>*/
+    <div className="upload-container">
+  <div className="upload-box">
+    <h2>Upload EEG File for Seizure Detection</h2>
+    <div className="upload-dropzone">
+      <label htmlFor="file">
+        {file
+          ? `✅ File Selected: ${file.name}`
+          : '📂 Drag & Drop or Click to Upload (.edf, .csv, .parquet)'}
+      </label>
+      <input
+        type="file"
+        id="file"
+        onChange={handleFileChange}
+        accept=".edf,.csv,.parquet"
+      />
     </div>
+    <button onClick={handleSubmit} disabled={!file}>
+      Upload & Analyze
+    </button>
+  </div>
+</div>
+
   );
 };
 

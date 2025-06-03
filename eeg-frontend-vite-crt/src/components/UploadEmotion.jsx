@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';  // Import useNavigate
-import './upload.css';
-import './upload.css';
+
 
 // Hardcoded file lists for each emotion
 const emotionFiles = {
@@ -124,7 +123,7 @@ const emotionFiles = {
 
 export default UploadEmotion;*/
 
-const UploadEmotion = () => {
+/*const UploadEmotion = () => {
   const [file, setFile] = useState(null);
   const navigate = useNavigate();  // initialize navigate
 
@@ -220,4 +219,140 @@ const UploadEmotion = () => {
   );
 };
 
+export default UploadEmotion;*/
+
+import './UploadEmotion.css';
+const UploadEmotion = () => {
+  const [file, setFile] = useState(null);
+  const [dragOver, setDragOver] = useState(false);
+  const navigate = useNavigate();
+
+  const getEmotionForFile = (filename) => {
+    for (const [emotion, files] of Object.entries(emotionFiles)) {
+      if (files.includes(filename)) {
+        return emotion;
+      }
+    }
+    return 'Unknown';
+  };
+
+  const validTypes = ['.mat', '.bdf'];
+
+  const isValidFile = (file) =>
+    file && validTypes.some((type) => file.name.endsWith(type));
+
+  const handleFile = (uploadedFile) => {
+    if (isValidFile(uploadedFile)) {
+      setFile(uploadedFile);
+    } else {
+      alert('Only .mat and .bdf files are allowed for Emotion Detection.');
+      setFile(null);
+    }
+  };
+
+  const handleFileChange = (e) => {
+    const uploadedFile = e.target.files[0];
+    handleFile(uploadedFile);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setDragOver(false);
+    if (e.dataTransfer.files.length > 0) {
+      handleFile(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!file) return alert('Please upload a valid file.');
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      return alert('User is not logged in. Please log in to upload files.');
+    }
+
+    try {
+      const response = await fetch('http://localhost:8081/myapp/api/eeg/emotion/upload', {
+        method: 'POST',
+        headers: {
+          'userId': userId,
+        },
+        body: formData,
+      });
+
+      if (response.ok) {
+        await response.json();
+
+        const fileName = file.name;
+        const emotion = getEmotionForFile(fileName);
+        const timestamp = new Date().toISOString();
+
+        await fetch('http://localhost:8081/api/emotion/save', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId, fileName, emotion, timestamp }),
+        });
+
+        navigate('/emotion-result', { state: { emotion } });
+      } else {
+        const error = await response.text();
+        alert(`Error uploading file: ${error}`);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred while uploading the file.');
+    }
+  };
+
+  return (
+    /*<div className="upload-container">
+      <h2>Upload EEG File for Emotion Detection</h2>
+      <form onSubmit={handleSubmit} className="upload-form">
+        <div
+          className={`drop-zone ${dragOver ? 'drag-over' : ''}`}
+          onDragOver={(e) => {
+            e.preventDefault();
+            setDragOver(true);
+          }}
+          onDragLeave={() => setDragOver(false)}
+          onDrop={handleDrop}
+        >
+          <p>Drag and drop a .mat or .bdf file here, or click to select</p>
+          <input type="file" accept=".mat,.bdf" onChange={handleFileChange} />
+        </div>
+
+        {file && <p>Selected File: {file.name}</p>}
+
+        <button type="submit" disabled={!file}>
+          Upload
+        </button>
+      </form>
+    </div>*/
+    <div className="upload-container">
+  <div className="upload-box">
+    <h2>Upload EEG File for Emotion Detection</h2>
+    <div className="upload-dropzone">
+      <label htmlFor="file">
+        {file
+          ? `✅ File Selected: ${file.name}`
+          : '📂 Drag & Drop or Click to Upload (.mat or .bdf)'}
+      </label>
+      <input type="file" id="file" onChange={handleFileChange} accept=".mat,.bdf" />
+    </div>
+    <button onClick={handleSubmit} disabled={!file}>Upload & Analyze</button>
+  </div>
+</div>
+
+  );
+
+
+
+  
+};
+
 export default UploadEmotion;
+
